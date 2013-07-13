@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block script %}
+<script>
+</script>
+{% end %}
+{% block content %}
+<div class="container content">
+    <div class="row-fluid">
+        <div class="span2">
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="name">
+                            <img src="{{ pi['user']['avatar'] }}" />
+                            <h5>{{ pi['user']['name'] }}</h5>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div  class="span10">
+                <div class="user_photos">
+                {% for p in pi['ps'] %}
+                    <a href="/get/photo/{{ p['pid'] }}" data-lightbox="user_photos" title="点击查看大图" >
+                        <img src="/get/thumb_photo/{{ p['pid'] }}" />
+                    </a>
+                {% end %}
+                </div>
+        </div>
+    </div>    
+</div>
+{% end %}

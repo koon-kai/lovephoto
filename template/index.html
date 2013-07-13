@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block script %}
+<script type="text/javascript">
+$(function() {
+//	$('#desk_container').imagesLoaded(function() {
+    	$('#desk_container').masonry({
+      		iitemSelector: '.desk',
+            //isAnimated:true,
+      	    animationOptions: {
+        	duration: 400
+     	    }
+        });
+        //return $('#desk_container').masonry('reloadItems');
+        //var container = document.querySelector('#desk_container');
+        //var msnry = new Masonry( container );
+        //return msnry.reloadItems();
+        $('#desk_container').infinitescroll({
+        		navSelector: "div.page .pages",
+        		nextSelector: "div.page .pages a:first",
+        		itemSelector: ".desk",
+                //loadingImg : '/img/loading.gif',
+                //loadingText : '正在加载...',
+                //donetext : '已经加载完了...',
+                loading:{
+                    finishedMsg:"已经加载完了...",
+                    img:"/static/img/loading.gif",
+                    msgText:"正在加载...",
+                },
+                animate: true,
+        		debug : false
+        },function(newElements) {
+        	var $newElems = $(newElements);
+        	$('#desk_container').masonry('appended', $newElems);
+        });
+//	});
+})
+//}).call(this);
+
+
+</script>
+{% end %}
+
+{% block content %}
+<div class="container content">
+	<!--
+	<div class="alert alert-info" style="margin-left:18px;margin-right:28px;">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span>分享一张照片，分享一份好心情。。。</span>
+    </div>
+    -->
+	<div class="row">
+		<div class="span12">
+			<div id="desk_container">
+                {% for p in photo_list %}
+				<div class="desk">
+					<div class="img_info">
+                        <a href="/show/photo/{{ p['id'] }}" title="点击查看图片详情" >
+                            <img src="/get/index_thumb/{{p['height'] }}/{{ p['pid']}}" style="height:{{ p['height'] }}px;" />
+						</a>
+					</div>
+					<div class="owner">
+						<div class="name">
+                            <img src="{{ p['user_avatar'] }}" />
+                            <a href="/user/photos/{{ p['uid']}}">{{ p['user_name'] }}</a>
+						</div>
+                        <div class="description">{{ p['desc']  }}</div>
+						<div class="social">
+							<a appkey="2650492187" class="share_button" count="n" onclick="javascript:share(this)" pic="http://fxgzj.com&#47;work_room&#47;pictures&#47;109&#47;thumb_CIMG0051.jpg" size="small" title="la.onger 的工作间图片" url="http://fxgzj.com/work_place/22">
+								<i class="icon-weibo"></i>
+							</a>
+                            <a class="commented" href="/show/photo/{{ p['id'] }}">
+								<div class="icon-comment"></div>
+							</a>
+                            <span>{{ p['comment_num'] }}</span> 
+                            <a href="/photo/like/{{ p['id'] }}" onclick="like(this);return false" class="like">
+                                <i class="icon-heart" id="{{ p['id'] }}"></i>
+							</a>
+                            <span>{{ p['like'] }}</span>
+						</div>
+					</div>
+				</div>
+                {% end %}
+			</div>
+		</div>
+	</div>
+
+	<!--  -->
+	 <div class="page">
+    	<div class="pages">
+		    <a href="/load?page=2"></a>
+        </div>
+	</div>
+</div>
+{% end %}
+

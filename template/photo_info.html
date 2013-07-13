@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block script %}
+<script>
+    function comment_submit(){
+        var p_id = $('input[name="p_id"]').val();
+        var content = $('textarea[name="content"]').val();
+        var _xsrf = $('input[name="_xsrf"]').val();
+        if(content==""){
+            alert("评论内容不能为空，请填写！");
+            return;
+        }
+        $.post('/submit/comment',{"p_id":p_id,"content":content,"_xsrf":_xsrf},function(result){
+            if(result=="0"){
+                var avatar = $('input[name="login_avatar"]').val();
+                var name = $('input[name="login_name"]').val();
+                var nowDate = new Date().format('yyyy-MM-dd hh:mm:ss');
+                var index = $('.comment #user_comment').find('tr').eq(-2).find('span').attr('id');
+                if(index==undefined){
+                    index = 1;
+                }else{
+                     index = parseInt(index) + 1;
+                }
+                var html = '<tr>'+
+                               '<td rowspan="2" class="avatar"><img src="'+avatar+'" /></td>'+
+                               '<td class="info"><a href="">'+name+'</a> '+nowDate+''+
+                                    '<span style="float:right;" id="'+index+'" >#'+index+'</span>'+
+                               '</td>'+
+                           '</tr>'+
+                           '<tr>'+
+                               '<td>'+content+'</td>'+
+                           '</tr>';
+                $('textarea[name="content"]').val('');
+                $('.comment #user_comment').append(html);
+            }else{
+                alert("提交失败");
+            }
+        },"json");
+    }
+</script>
+{% end %}
+{% block content %}
+<div class="container content">
+    <div class="row-fluid">
+        <div class="span8">
+            <div class="show-photo">
+                <img src="/get/photo/{{ photo_info['pid'] }}"/>
+                <input type="hidden" name="p_id" value="{{ photo_info['id'] }}">
+            </div>
+            <div class="sns-bar-fav">
+                <a class="fav-add btn-fav" title="标为喜欢" href="#" ><i class="icon-heart"></i> 喜欢</a>
+            </div>
+            <div class="comment">
+                <table id="user_comment" class="table">
+                    {% for c in comments %}
+                    <tr>
+                        <td rowspan="2" class="avatar"><img src="{{ c['avatar'] }}" /></td>    
+                        <td class="info"><a href="/user/photos/{{ c['uid'] }}">{{ c['name']}}</a> {{ format_datetime2str(c['submit_time']) }} 
+                            <span style="float:right;" id="{{ c['index'] }}" >{{ c['index'] }}#</span>
+                        </td>    
+                    </tr>
+                     <tr>
+                         <td>{{ c['content'] }}</td>    
+                     </tr>
+                     {% end %}
+                 </table>
+                 <table class="table">
+                     {% if current_user %}
+                     <tr>
+                         <td colspan="2">写下你的评论:</td>
+                     </tr>
+                     <tr>
+                        <td colspan="2"><textarea rows="3" name="content" class="input-block-level"></textarea></td>
+                     </tr>
+                     <tr>
+                         <td colspan="2" >
+                             <input type="hidden" name="login_name" value="{{  json_decode(current_user)['nickname'] }}">
+                             <input type="hidden" name="login_avatar" value="{{  json_decode(current_user)['avatar'] }}">
+                             {{ xsrf_form_html()  }}
+                             <button style="float:right;" onclick="comment_submit();" class="btn">提交</button>
+                         </td>
+                     </tr>
+                     {% else %}
+                     <tr>
+                         <td colspan="2">
+                             <div class="alert" style="text-align:center">您还未登陆，请登陆后发表评论。<a href="/login" style="text-decoration: underline">登陆</a></div>
+                         </td> 
+                     </tr>
+                     {% end %}
+               </table>
+           </div>
+         </div>
+         <div class="span4">
+             <table class="table">
+                 <tr>
+                     <td>上传用户：</td>
+                     <td>
+                         <div class="name">
+                             <img src="{{ photo_info['user_avatar'] }}" />
+                             <a href="/user/photos/{{ photo_info['uid']}}" >{{ photo_info['user_name'] }}</a>
+                         </div>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>上传时间：</td>
+                     <td>{{ format_datetime2str(photo_info['upload_time']) }}</td>
+                 </tr>
+                 {% if photo_info['has_exif'] == "true" %}
+                 <tr>
+                     <td>拍摄时间：</td>
+                     <td>{{ format_str2datetime(photo_info['date_taken']) }}</td>
+                 </tr>
+                 <tr>
+                     <td>相机品牌：</td>
+                     <td>{{ photo_info['camera_brand'] }}</td>
+                 </tr>
+                 <tr>
+                     <td>相机型号：</td>
+                     <td>{{ photo_info['camera_model']  }}</td>
+                 </tr>
+                 <tr>
+                     <td>曝光时间：</td>
+                     <td>{{ photo_info['exposure_time'] }} sec</td>
+                 </tr>
+                 <tr>
+                     <td>光圈大小：</td>
+                     <td>{{ photo_info['aperture_value'] }} EV</td>
+                 </tr>
+                 <tr>
+                     <td>ISO：</td>
+                     <td>{{ photo_info['iso_speed_rating'] }}</td>
+                 </tr>
+                 <tr>
+                     <td>测光模式：</td>
+                     <td>{{ photo_info['metering_mode'] }}</td>
+                 </tr>
+                 <tr>
+                     <td>曝光程序：</td>
+                     <td>{{ photo_info['exposure_program'] }}</td>
+                 </tr>
+                 <tr>
+                     <td>焦距：</td>
+                     <td>{{ photo_info['focal_length'] }} mm</td>
+                 </tr>
+                 {% end %}
+                 <tr>
+                     <td>描述：</td>
+                     <td>{{ photo_info['desc'] }}</td>
+                 </tr>
+             </table>
+         </div>
+     </div>    
+ </div>
+ {% end %}
