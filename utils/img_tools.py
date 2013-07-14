@@ -10,13 +10,16 @@ import StringIO
 def make_thumb(photo, size=75):
 
     timestamp = str(time.time()).split('.')[0]
+    print timestamp
     #photo_name = timestamp + "_" + "%sx%s"%(str(size),str(size)) + ".jpg"
     photo_name = timestamp + ".jpg"
     photo_dir = config.UPLOAD_PHOTO_DIR + photo_name
 
     try:
         im = Image.open(photo)
-    except IOError:
+	im.load()
+    except IOError,e:
+        raise e
         return
 
     mode = im.mode
