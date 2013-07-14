@@ -8,7 +8,7 @@ import httplib2
 import mimetypes
 import random
 import string
-import markdown2
+#import markdown2
 import config
 
 def randbytes(bytes_):

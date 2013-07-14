@@ -8,7 +8,7 @@ sys.setdefaultencoding("utf8")
 import os.path
 import re
 
-import torndb
+#import torndb
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options

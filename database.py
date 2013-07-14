@@ -4,7 +4,7 @@
 import logging
 #import torndb
 
-import MySQLdb
+#import MySQLdb
 
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
