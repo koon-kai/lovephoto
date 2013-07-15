@@ -41,3 +41,36 @@ Date.prototype.format = function(format)
                 ("00"+ o[k]).substr((""+ o[k]).length));
     return format;
 }
+
+
+function like(self){
+   var href = self.href;
+   
+   $.ajax({
+       url:href,
+       type:'GET',
+       cache: false,
+       contentType: false,     //不可缺
+       processData: false,     //不可缺
+       dataType : "json",
+       success:function(mes){
+  		    var c, sel;
+  		    if (mes.isOk === "true") {
+    		    sel = $('#' + mes.message);
+    		    sel.removeClass('icon-heart-empty').addClass('icon-heart');
+    		    sel.parent().removeClass('like').addClass('liked');
+    		    c = sel.parent().next('span');
+    		    return $(c).html(parseInt($(c).html()) + 1);
+  		    } else {
+    		    return console.log(mes.message);
+ 	        }
+       },
+       error:function(e,mes){
+  	        console.log(e, mes);
+ 		    if (mes.status === 401) {
+   		 	    alert(mes.responseText);
+    		    return window.location = '/login';
+ 	         }
+       }
+   });
+}

@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block script %}
+<script src="/static/js/jquery.infinitescroll.dev.js"></script>
+<script src="/static/js/masonry.pkgd.min.js"></script>
 <script type="text/javascript">
 $(function() {
-//	$('#desk_container').imagesLoaded(function() {
     	$('#desk_container').masonry({
       		iitemSelector: '.desk',
             //isAnimated:true,
@@ -11,10 +12,6 @@ $(function() {
         	duration: 400
      	    }
         });
-        //return $('#desk_container').masonry('reloadItems');
-        //var container = document.querySelector('#desk_container');
-        //var msnry = new Masonry( container );
-        //return msnry.reloadItems();
         $('#desk_container').infinitescroll({
         		navSelector: "div.page .pages",
         		nextSelector: "div.page .pages a:first",
@@ -33,11 +30,7 @@ $(function() {
         	var $newElems = $(newElements);
         	$('#desk_container').masonry('appended', $newElems);
         });
-//	});
 })
-//}).call(this);
-
-
 </script>
 {% end %}
 

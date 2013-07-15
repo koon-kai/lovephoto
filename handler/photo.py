@@ -10,6 +10,9 @@ from tornado.escape import json_encode
 from PIL.ExifTags import TAGS
 from PIL.PngImagePlugin import PngImageFile
 from utils.img_tools import get_thumb
+from utils.logger import logging
+
+log = logging.getLogger(__name__)
 
 class PhotoHandler(base.BaseHandler):
 
@@ -18,13 +21,15 @@ class PhotoHandler(base.BaseHandler):
         if not pid:
             raise tornado.web.HTTPError(404)
        
-        photo = self.cache.get('big_'+pid)
+        #photo = self.cache.get('big_'+pid)
+        photo = self.mc.get(str('big_'+pid))
         if not photo:
             pfs = self.fs.get(bson.objectid.ObjectId(pid))
             if not pfs:
                 raise tornado.web.HTTPError(404)
             photo = pfs.read()
-            self.cache.set('big_'+pid,photo)
+            #self.cache.set('big_'+pid,photo)
+            self.mc.set(str('big_'+pid),photo)
         self.write(photo)
 
 
@@ -35,13 +40,15 @@ class PhotoThumbHandler(base.BaseHandler):
         if not pid:
             raise tornado.web.HTTPError(404)
 
-        photo = self.cache.get('thumb_'+pid)
+        #photo = self.cache.get('thumb_'+pid)
+        photo = self.mc.get(str('thumb_'+pid))
         if not photo:
             pfs = self.fs.get(bson.objectid.ObjectId(pid))
             if not pfs:
                 raise tornado.web.HTTPError(404)
             photo = pfs.read()
-            self.cache.set('thumb_'+pid,photo)
+            #self.cache.set('thumb_'+pid,photo)
+            self.mc.set(str('thumb_'+pid),photo)
 
         sio = StringIO.StringIO(photo)
         photo_data = get_thumb(sio)
@@ -56,13 +63,15 @@ class IndexThumbHandler(base.BaseHandler):
         if not pid:
             raise tornado.web.HTTPError(404)
 
-        photo = self.cache.get('index_'+pid)
+        #photo = self.cache.get('index_'+pid)
+        photo = self.mc.get(str('index_'+pid))
         if not photo:
             pfs = self.fs.get(bson.objectid.ObjectId(pid))
             if not pfs:
                 raise tornado.web.HTTPError(404)
             photo = pfs.read()
-            self.cache.set('index_'+pid,photo)
+            #self.cache.set('index_'+pid,photo)
+            self.mc.set(str('index_'+pid),photo)
 
         sio = StringIO.StringIO(photo)
         photo_data = get_thumb(sio,260,int(height))
@@ -104,16 +113,21 @@ class ShowPhotoHandler(base.BaseHandler):
             "upload_time" : photo['upload_time'],
         }
         if exif_info:
-            photo_info["has_exif"] = "true"
-            photo_info["camera_brand"] =  exif_info['Make']  #相机品牌
-            photo_info["camera_model"] = exif_info['Model']  #相机型号
-            photo_info["date_taken"] = exif_info['DateTime'] #拍摄时间
-            photo_info["exposure_time"] = (lambda x:str(x[0])+'/'+str(x[1]))(exif_info['ExposureTime']) #曝光时间
-            photo_info["aperture_value"] = (lambda x:float('%0.2f'%(float(x[0])/float(x[1]))))(exif_info['ApertureValue']) #光圈大小
-            photo_info["iso_speed_rating"] = exif_info['ISOSpeedRatings'] #iso
-            photo_info["metering_mode"] = exif_info['MeteringMode']  #测光模式
-            photo_info["exposure_program"] = exif_info['ExposureProgram'] #曝光程序
-            photo_info["focal_length"] = (lambda x:float('%0.1f'%(float(x[0])/float(x[1]))))(exif_info['FocalLength']) #焦距
+            try:
+                photo_info["has_exif"] = "true"
+                photo_info["camera_brand"] =  exif_info['Make']  #相机品牌
+                photo_info["camera_model"] = exif_info['Model']  #相机型号
+                photo_info["date_taken"] = exif_info.has_key('DateTime') and exif_info['DateTime'] or exif_info['DateTimeOriginal']  #拍摄时间
+                photo_info["exposure_time"] = (lambda x:str(x[0])+'/'+str(x[1]))(exif_info['ExposureTime']) #曝光时间
+                photo_info["aperture_value"] = (lambda x:float('%0.2f'%(float(x[0])/float(x[1]))))(exif_info['ApertureValue']) #光圈大小
+                photo_info["iso_speed_rating"] = exif_info['ISOSpeedRatings'] #iso
+                #photo_info["metering_mode"] = exif_info['MeteringMode']  #测光模式
+                #photo_info["exposure_program"] = exif_info['ExposureProgram'] #曝光程序
+                photo_info["focal_length"] = (lambda x:float('%0.1f'%(float(x[0])/float(x[1]))))(exif_info['FocalLength']) #焦距
+            except KeyError,e:
+                log.warning(e)
+                photo_info['has_exif'] = "false"
+                
         else:
             photo_info['has_exif'] = "false"
 
@@ -156,6 +170,8 @@ class ShowPhotoHandler(base.BaseHandler):
             decoded = TAGS.get(tag,tag)
             ret[decoded] = value
         sio.close()
+        #print ret
+        log.info(ret)
         return ret
 
 

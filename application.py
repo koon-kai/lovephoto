@@ -8,7 +8,7 @@ sys.setdefaultencoding("utf8")
 import os.path
 import re
 
-#import torndb
+import memcache
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -18,19 +18,15 @@ import handler.index
 import handler.connect
 import handler.user
 import handler.photo
+import handler.error
 import config
 
 from tornado.options import define, options
 from tornado.escape import json_decode
 from gridfs import GridFS
-from utils.logger import logging
-from database import mongo_client,redis_conn
+from database import mongo_client
 
 define("port", default = 5000, help = "run on the given port", type = int)
-#define("mysql_host", default = "127.0.0.1", help = "community database host")
-#define("mysql_database", default = "lovelife", help = "community database name")
-#define("mysql_user", default = "root", help = "community database user")
-#define("mysql_password", default = "root", help = "community database password")
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -40,7 +36,7 @@ class Application(tornado.web.Application):
             site_path = config.SITE_PATH,
             thumb_dir = config.THUMB_DIR,
             xsrf_cookies = True,
-            cookie_secret = "cookie_secret_code",
+            cookie_secret = config.SECRET_KEY,
             login_url = "/login",
             autoescape = None,
 	        debug = True,
@@ -65,24 +61,29 @@ class Application(tornado.web.Application):
             (r"/share/delete/thumb", handler.user.DelThumbHandler),
             (r"/user/photos/(\w+)", handler.user.UserPhotosHandler),
             (r"/submit/comment", handler.user.SubmitCommentHandler),
+            (r".*", handler.error.PageNotFoundHandler),
         ]
 
         tornado.web.Application.__init__(self, handlers, **settings)
 
-        # Have one global connection to the blog DB across all handlers
+        # mongodb
         self.db = mongo_client[config.MDB_NAME]
-        #self.mc = memcache.Client(['%s:%s' % (config.MEMCACHED_HOST, config.MEMCACHED_PORT)], debug=0)
-        self.cache = redis_conn
+        
+        # memcache
+        self.mc = memcache.Client(['%s:%s' % (config.MEMCACHED_HOST, config.MEMCACHED_PORT)], debug=0)
+
+        # redis
+        #self.cache = redis_conn
+
         #mongodb gridfs
         self.fs = GridFS(self.db,'photos')
         
-        self.log = logging.getLogger(__file__)
-
+        
 def main():
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(options.port)
-    print 'Server starting on 127.0.0.1:5000 ...'
+    print 'Server starting on 127.0.0.1:%s ...' % options.port
     tornado.ioloop.IOLoop.instance().start()
   
 

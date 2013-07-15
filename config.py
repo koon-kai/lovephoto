@@ -5,12 +5,13 @@ import os.path
 
 
 #-- application config --
-SECRET_KEY = 'lovelife_key'
-SITE_COOKIE = 'lovelife_cookie'
+SECRET_KEY = 'efku62xkQ02svYusgU3gyUUAEjqvHUWqjowRRlI3Odw='
+SITE_COOKIE = 'tsLochevTHaYN2FAmPodz0jcvHc1cEzOmr3JW+stpBI='
 
 SITE_PATH = os.path.dirname(os.path.abspath(__file__))
 STATIC_PATH = os.path.join(SITE_PATH, 'static')
 TEMPLATE_PATH = os.path.join(SITE_PATH, 'template')
+LOG_PATH = os.path.join(SITE_PATH,'log')
 
 #-- upload photo dir --
 UPLOAD_PHOTO_DIR = STATIC_PATH+'/upload/thumb/'
@@ -21,7 +22,7 @@ DB_HOST = 'localhost'
 DB_PORT = 3306
 DB_USER = 'root'
 DB_PASSWD = 'root'
-DB_NAME = 'lovephoto'
+DB_NAME = 'lovelife'
 
 
 #-- mongodb config --
@@ -35,6 +36,10 @@ REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379
 REDIS_DB = 0
 
+#-- mc config --
+# mc replace redis
+MEMCACHED_HOST = "127.0.0.1"
+MEMCACHED_PORT = 11211
 
 #-- openid type config --
 OPENID_DOUBAN = 'douban'
@@ -51,8 +56,7 @@ APIKEY_DICT = {
     OPENID_DOUBAN : {
         "key" : "0b26186a93e338912172493fbba9a9b3",
         "secret" : "c26506c3443d1bd8",
-        #"redirect_uri" : "http://localhost:5000/connect/callback/douban",
-        "redirect_uri" : "http://192.168.1.106:5000/connect/callback/douban",
+        "redirect_uri" : "http://localhost:5000/connect/callback/douban",
     },
     OPENID_SINA : {
         "key" : "3537897641",

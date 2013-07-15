@@ -3,7 +3,6 @@
 import urllib
 import urlparse
 import config
-from utils.logger import logging
 import tornado
 from tornado.escape import json_decode
 from utils.tools import httplib2_request
@@ -14,8 +13,9 @@ from model.data import DoubanUser
 
 from .oauth2 import OAuth2
 from .error import OAuthError, OAuthLoginError, OAuthTokenExpiredError
+from utils.logger import logging
 
-log = logging.getLogger(__file__)
+log = logging.getLogger(__name__)
 
 class Douban(OAuth2):
 

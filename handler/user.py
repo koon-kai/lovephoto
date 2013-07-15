@@ -11,7 +11,9 @@ import datetime
 import pymongo
 from tornado.escape import json_decode,json_encode
 from utils.img_tools import make_thumb,del_thumb
+from utils.logger import logging
 
+log = logging.getLogger(__name__)
 
 #提交照片
 class ShareHandler(base.BaseHandler):
@@ -44,6 +46,7 @@ class ShareHandler(base.BaseHandler):
         try:
             del_thumb(file_dir)
         except Exception,e:
+            log.warning(e)
             raise tornado.web.HTTPError(404,e)
 
         self.redirect('/user/photos/'+user['uid'])
@@ -66,6 +69,7 @@ class SharePhotoHandler(base.BaseHandler):
             thumb_dir = str(self.thumb_dir) + photo_name
         except AssertionError,e:
             info = u'只能上传图片格式的文件！'
+            log.info(info)
         #photos = self.request.files['uploadImg']
 
         data = {"info":info,"dir":thumb_dir}

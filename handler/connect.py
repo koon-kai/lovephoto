@@ -7,11 +7,12 @@ from tornado.escape import json_decode,json_encode
 
 import base
 import config
-#from model.user import User,UserAlias,OAuth2Token
 from api.douban import Douban
 from api.sina import SinaWeibo
 from api.error import OAuthError
+from utils.logger import logging
 
+log = logging.getLogger(__name__)
 
 class ConnectHandler(base.BaseHandler):
     
@@ -24,12 +25,13 @@ class ConnectHandler(base.BaseHandler):
             client = SinaWeibo()
 
         if not client:
+            log.warning(u'不合法的路径连接')
             raise tornado.web.HTTPError(400,u"不支持该第三方账户登录")
 
         try:
             login_uri = client.login()
         except OAuthError,e:
-            self.log.warning(e)
+            log.warning(e)
             raise tornado.web.HTTPError(400,u"跳转到第三方失败，请重新尝试一下")
 
         self.redirect(login_uri)
@@ -58,9 +60,10 @@ class ConnectCallbackHandler(base.BaseHandler):
             ## oauth2方式授权处理
             try:
                 token_dict = client.get_access_token(code)
-                print "---token_dict:",token_dict
+                log.info(token_dict)
+                #print "---token_dict:",token_dict
             except OAuthError,e:
-                self.log.warning(e)
+                log.warning(e)
                 raise tornado.web.HTTPError(400,u"从第三方获取access_token失败了，请重新尝试一下。")
 
             if not (token_dict and token_dict.get("access_token")):
@@ -75,9 +78,10 @@ class ConnectCallbackHandler(base.BaseHandler):
                     or token_dict.get("user", {}).get("id")
                 client.set_token(access_token, refresh_token)
                 user_info = client.get_user_info(uid)
-                print "---user_info", user_info, user_info.data
+                log.info(user_info)
+                log.info(user_info.data)
             except OAuthError, e:
-                self.log.warning(e)
+                log.warning(e)
                 raise tornado.web.HTTPError(400, e.msg)
 
             user = self.save_user_and_token(token_dict, user_info, openid_type)
@@ -86,6 +90,7 @@ class ConnectCallbackHandler(base.BaseHandler):
             self.redirect("/")
         else:
             info  = u"连接到"+provider+"失败了，可能是对方网站忙，请稍等重试..."
+            log.warning(info)
             raise tornado.web.HTTPError(400,info)
 
 

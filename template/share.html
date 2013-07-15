@@ -1,14 +1,10 @@
 {% extends "base.html" %}
 
 {% block script %}
+<script src="/static/js/Validform_v5.1.js"></script>
 <script>
     jQuery(function () {
 
-        // var str = $(".snippet").html();
-        // alert(str)
-        // var regex = /<br\s*[\/]?>/gi;
-        // $(".snippet").html(str.replace(regex, "p"));
-        // jQuery('.node_bg').tooltip('show')
         $('#upload_file_hide').hide();
         var _xsrf = $('input[name="_xsrf"]').val();
 

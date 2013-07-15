@@ -3,7 +3,6 @@
 import urllib
 import urlparse
 import config
-from utils.logger import logging
 from tornado.escape import json_decode
 from utils.tools import httplib2_request
 
@@ -14,7 +13,6 @@ from model.data import SinaWeiboStatusData
 from .oauth2 import OAuth2
 from .error import OAuthLoginError, OAuthTokenExpiredError
 
-log = logging.getLogger(__file__)
 
 class SinaWeibo(OAuth2):
 

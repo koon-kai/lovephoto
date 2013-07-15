@@ -47,16 +47,18 @@
                 <img src="/get/photo/{{ photo_info['pid'] }}"/>
                 <input type="hidden" name="p_id" value="{{ photo_info['id'] }}">
             </div>
+            <!--
             <div class="sns-bar-fav">
                 <a class="fav-add btn-fav" title="标为喜欢" href="#" ><i class="icon-heart"></i> 喜欢</a>
             </div>
+            -->
             <div class="comment">
                 <table id="user_comment" class="table">
                     {% for c in comments %}
                     <tr>
                         <td rowspan="2" class="avatar"><img src="{{ c['avatar'] }}" /></td>    
                         <td class="info"><a href="/user/photos/{{ c['uid'] }}">{{ c['name']}}</a> {{ format_datetime2str(c['submit_time']) }} 
-                            <span style="float:right;" id="{{ c['index'] }}" >{{ c['index'] }}#</span>
+                            <span  id="{{ c['index'] }}" >{{ c['index'] }}#</span>
                         </td>    
                     </tr>
                      <tr>
@@ -130,14 +132,16 @@
                      <td>ISO：</td>
                      <td>{{ photo_info['iso_speed_rating'] }}</td>
                  </tr>
+                 <!--
                  <tr>
                      <td>测光模式：</td>
-                     <td>{{ photo_info['metering_mode'] }}</td>
+                     <td></td>
                  </tr>
                  <tr>
                      <td>曝光程序：</td>
-                     <td>{{ photo_info['exposure_program'] }}</td>
+                     <td></td>
                  </tr>
+                 -->
                  <tr>
                      <td>焦距：</td>
                      <td>{{ photo_info['focal_length'] }} mm</td>

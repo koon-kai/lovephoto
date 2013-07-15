@@ -1,19 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import logging
-#import torndb
 
-#import MySQLdb
+import sys
+import config
 
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
-import redis
-from redis.connection import ConnectionError
+#import redis
+#from redis.connection import ConnectionError
 
-from config import *
-import config
 
 
 
@@ -79,7 +76,7 @@ import config
 """ Connct to MongoDB """
 mongo_client = None
 try:
-    mongo_client = MongoClient(host=MONGO_HOST,port=MONGO_PORT)
+    mongo_client = MongoClient(host=config.MONGO_HOST,port=config.MONGO_PORT)
     print "MongoDB Connected successfully"
 except ConnectionError, e:
     sys.stderr.write("Could not connect to MongoDB:%s\n" % e)
@@ -87,12 +84,12 @@ except ConnectionError, e:
 
 
 """ Connct to Redis """
-redis_conn = None
-try:
-    pool = redis.ConnectionPool(host=REDIS_HOST,port=REDIS_PORT,db=REDIS_DB)
-    redis_conn = redis.Redis(connection_pool=pool)
-    redis_conn.ping()
-    print "Redis Connected successfully"
-except ConnectionError,e:
-    sys.stderr.write("Could not connect to Redis:%s\n" % e)
+#redis_conn = None
+#try:
+#    pool = redis.ConnectionPool(host=REDIS_HOST,port=REDIS_PORT,db=REDIS_DB)
+#    redis_conn = redis.Redis(connection_pool=pool)
+#    redis_conn.ping()
+#    print "Redis Connected successfully"
+#except ConnectionError,e:
+#    sys.stderr.write("Could not connect to Redis:%s\n" % e)
 

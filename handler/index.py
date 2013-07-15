@@ -4,6 +4,7 @@
 import base
 import pymongo
 
+
 class IndexHandler(base.BaseHandler):
     def get(self):
 
@@ -16,12 +17,10 @@ class IndexHandler(base.BaseHandler):
         pages = 15
         photos = None
 
-        ps = self.db.photos.find().sort("upload_time",pymongo.DESCENDING)  # DESCENDING .ASCENDING
+        ps = self.db.photos.find().sort("upload_time",pymongo.DESCENDING)
         if page == 1:
             photos = ps[page-1:pages]
         elif page > 1: 
-            print (page-1)*pages
-            print pages*page
             photos = ps[(page-1)*pages:pages*page]
 
         photo_list = []

@@ -6,18 +6,19 @@ import Image
 import os
 import config
 import StringIO
+import uuid
 
 def make_thumb(photo, size=75):
 
-    timestamp = str(time.time()).split('.')[0]
-    print timestamp
+    #timestamp = str(time.time()).split('.')[0]
+    thumb_name = str(uuid.uuid4())
     #photo_name = timestamp + "_" + "%sx%s"%(str(size),str(size)) + ".jpg"
-    photo_name = timestamp + ".jpg"
+    photo_name = thumb_name + ".jpg"
     photo_dir = config.UPLOAD_PHOTO_DIR + photo_name
 
     try:
         im = Image.open(photo)
-	im.load()
+        im.load()
     except IOError,e:
         raise e
         return
