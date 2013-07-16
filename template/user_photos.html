@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block style %}
-  <link rel="stylesheet" type="text/css" href="/static/css/lightbox.css" charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="/static/css/lightbox.css" charset="utf-8" />
 {% end %}
 
 {% block script %}
-  <script src="/static/js/lightbox-2.6.min.js"></script>
+<script src="/static/js/lightbox-2.6.min.js"></script>
 {% end %}
 
 {% block content %}
@@ -27,8 +27,13 @@
                 <div class="user_photos">
                 {% for p in pi['ps'] %}
                     <a href="/get/photo/{{ p['pid'] }}" data-lightbox="user_photos" title="点击查看大图" >
-                        <img src="/get/thumb_photo/{{ p['pid'] }}" />
+                        <img id="{{ p['_id']}}" src="/get/thumb_photo/{{ p['pid'] }}" />
                     </a>
+                    {% if current_user %}
+                        {% if pi['user']['user_id'] == json_decode(current_user)['uid']%}
+                            <a href="#" name="{{p['_id']}}" onclick="removePhoto(this);return false" > <i class="icon-remove"></i></a>
+                        {% end %}
+                    {% end %}
                 {% end %}
                 </div>
         </div>

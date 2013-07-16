@@ -5,17 +5,17 @@
 <script src="/static/js/masonry.pkgd.min.js"></script>
 <script type="text/javascript">
 $(function() {
-    	$('#desk_container').masonry({
-      		iitemSelector: '.desk',
+    	$('#photo_container').masonry({
+      		iitemSelector: '.photo',
             //isAnimated:true,
       	    animationOptions: {
         	duration: 400
      	    }
         });
-        $('#desk_container').infinitescroll({
+        $('#photo_container').infinitescroll({
         		navSelector: "div.page .pages",
         		nextSelector: "div.page .pages a:first",
-        		itemSelector: ".desk",
+        		itemSelector: ".photo",
                 //loadingImg : '/img/loading.gif',
                 //loadingText : '正在加载...',
                 //donetext : '已经加载完了...',
@@ -28,25 +28,39 @@ $(function() {
         		debug : false
         },function(newElements) {
         	var $newElems = $(newElements);
-        	$('#desk_container').masonry('appended', $newElems);
+        	$('#photo_container').masonry('appended', $newElems);
         });
+
+        //判断浏览器
+        if(window.ActiveXObject){//若是ie浏览器
+            jQuery('#detect').show();
+        }
 })
 </script>
 {% end %}
 
 {% block content %}
-<div class="container content">
-	<!--
-	<div class="alert alert-info" style="margin-left:18px;margin-right:28px;">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-        <span>分享一张照片，分享一份好心情。。。</span>
+<div class="wrapper" style="width: 1244px;">
+    <div id="intro" class="sheet">
+        <span class="desc">
+            <i class="icon-camera"></i> 用你的镜头 留住美好的瞬间
+            <i style="margin-left:20px;" class="icon-gittip"></i>
+            LovePhoto 分享你的摄影作品 
+        </span>
+        <span class="stat">已上传照片{{ photo_count }}张</span>
     </div>
-    -->
+</div>
+
+
+<div class="container index-content">
+    <div id="detect">
+         请使用IE9、Firefox 或者 Chrome 浏览器。LovePhoto暂不支持IE9以下版本的浏览器（包括360浏览器、世界之窗等）。
+    </div>
 	<div class="row">
 		<div class="span12">
-			<div id="desk_container">
+			<div id="photo_container">
                 {% for p in photo_list %}
-				<div class="desk">
+				<div class="photo">
 					<div class="img_info">
                         <a href="/show/photo/{{ p['id'] }}" title="点击查看图片详情" >
                             <img src="/get/index_thumb/{{p['height'] }}/{{ p['pid']}}" style="height:{{ p['height'] }}px;" />

@@ -49,6 +49,7 @@ class ShareHandler(base.BaseHandler):
             log.warning(e)
             raise tornado.web.HTTPError(404,e)
 
+        self.mc.delete('photo_count')
         self.redirect('/user/photos/'+user['uid'])
 
 
@@ -86,6 +87,25 @@ class UserPhotosHandler(base.BaseHandler):
         pi = {"user":user,"ps":ps}
         self.render('user_photos.html',pi = pi)
 
+
+class DelPhotoHandler(base.BaseHandler):
+
+    @tornado.web.authenticated
+    def get(self,p_id):
+        photo = self.db.photos.find_one({"_id":bson.objectid.ObjectId(p_id)})
+        if not photo:
+            raise tornado.web.HTTPError(404)
+
+        pid = photo['pid']
+        self.db.photos.remove({"_id":bson.objectid.ObjectId(p_id)})
+        self.db.comment.remove({"p_id":p_id})
+        self.fs.delete(pid)
+        self.mc.delete("index_"+str(pid))
+        self.mc.delete("thumb_"+str(pid))
+        self.mc.delete("big_"+str(pid))
+        self.mc.delete("photo_count")
+        user = self.get_current_user()
+        self.redirect('/user/photos/'+json_decode(user)['uid'])
 
 #删除缩略图
 class DelThumbHandler(base.BaseHandler):

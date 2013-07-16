@@ -60,6 +60,7 @@ class Application(tornado.web.Application):
             (r"/share/photo/submit", handler.user.ShareHandler),
             (r"/share/delete/thumb", handler.user.DelThumbHandler),
             (r"/user/photos/(\w+)", handler.user.UserPhotosHandler),
+            (r"/del/photo/(\w+)", handler.user.DelPhotoHandler),
             (r"/submit/comment", handler.user.SubmitCommentHandler),
             (r".*", handler.error.PageNotFoundHandler),
         ]

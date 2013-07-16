@@ -12,7 +12,6 @@
 	<script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/common.js"></script>
     <script src="/static/js/jquery.scrollTo.min.js"></script>
-    <style>.content {padding-top: 70px;}</style>
 	{% block script %}{% end %}
 	{% block style %}{% end %}
   </head>
@@ -34,7 +33,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <!--<li class="divider"></li>-->
-                        <li><a href="/share"><i class="icon-fixed-width icon-upload-alt" style="margin-right:4px;"></i>上传图片</a></li>
+                        <li><a href="/share"><i class="icon-fixed-width icon-upload-alt" style="margin-right:4px;"></i>上传照片</a></li>
                         <li><a href="/user/photos/{{ json_decode(current_user)['uid'] }}"><i class="icon-fixed-width icon-camera" style="margin-right:4px;"></i>我的照片</a></li>          
                         <li><a href="/logout"><i class="icon-fixed-width icon-off" style="margin-right:4px;"></i>退出登录</a></li>
                     </ul>
@@ -57,11 +56,25 @@
     {% end %}  
     {% block content %}{% end %} 
     {% block footer %}
-	   <div class="footer">
-           © 2013 LovePhoto. Power by <a href="http://www.tornadoweb.org/" target="_blank">tornado</a>  </br>
-           <a href="/about" target="_blank">@ About me</a></br>
-           @ version: 0.0.1 </br>
-     </div>  
+	   <div class="footer container">
+           <div class="row">
+               <div class="span3">
+                     © 2013 LovePhoto. Power by <a href="http://www.tornadoweb.org/" target="_blank">tornado</a> 
+              </div>
+              <div class="span2">
+                  <a href="/about" target="_blank">About me</a>
+              </div>
+              <div class="span2">
+                  <a href="http://blog.koonkai.me">Blog</a> 
+              </div>
+              <div class="span2">
+                   version: 0.0.1 
+              </div>
+              <div class="span2">
+                  <!--  <img src="/static/img/PoweredMongoDBbeige50.png"/>-->
+              </div>
+         </div>
+      </div>  
     {% end %} 
     <a id="goTop" class="invisible" title="返回顶部" href="javascript:void(0)" onfocus='this.blur()'>回顶部</a>
   </body>

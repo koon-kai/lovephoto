@@ -16,6 +16,12 @@ class IndexHandler(base.BaseHandler):
 
         pages = 15
         photos = None
+        photo_count = None
+        
+        photo_count = self.mc.get('photo_count')
+        if not photo_count:
+            photo_count = self.db.photos.find().count()
+            self.mc.set("photo_count",photo_count)
 
         ps = self.db.photos.find().sort("upload_time",pymongo.DESCENDING)
         if page == 1:
@@ -38,7 +44,7 @@ class IndexHandler(base.BaseHandler):
                 'user_name' : self.get_username_by_uid(p['uid']),
                 }
             photo_list.append(photo_info)
-        self.render('index.html',photo_list = photo_list)
+        self.render('index.html',photo_list = photo_list,photo_count=photo_count)
 
     def get_avatar_by_uid(self,uid):
         user = self.db.user.find_one({"user_id":uid})

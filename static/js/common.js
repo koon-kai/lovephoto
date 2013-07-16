@@ -74,3 +74,11 @@ function like(self){
        }
    });
 }
+
+function removePhoto(self){
+
+    var id = self.name;
+    if(confirm("确定要删除吗？")){
+        return window.location  = '/del/photo/'+id;  
+    }
+}
