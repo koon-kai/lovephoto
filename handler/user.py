@@ -46,7 +46,7 @@ class ShareHandler(base.BaseHandler):
         try:
             del_thumb(file_dir)
         except Exception,e:
-            log.warning(e)
+            log.error(e)
             raise tornado.web.HTTPError(404,e)
 
         self.mc.delete('photo_count')

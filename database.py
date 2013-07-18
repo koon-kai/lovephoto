@@ -78,7 +78,7 @@ mongo_client = None
 try:
     mongo_client = MongoClient(host=config.MONGO_HOST,port=config.MONGO_PORT)
     print "MongoDB Connected successfully"
-except ConnectionError, e:
+except ConnectionFailure, e:
     sys.stderr.write("Could not connect to MongoDB:%s\n" % e)
     #sys.exit(1)
 

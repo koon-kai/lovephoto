@@ -82,3 +82,13 @@ function removePhoto(self){
         return window.location  = '/del/photo/'+id;  
     }
 }
+
+function submit_check(){
+
+    var img = $('input[name="uploadImg"]').val();
+    if(img=="" || img == null){
+        alert('请选择要上传的相片');
+        return false;
+    }
+    return true;
+}

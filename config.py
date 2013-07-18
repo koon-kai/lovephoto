@@ -56,7 +56,7 @@ APIKEY_DICT = {
     OPENID_DOUBAN : {
         "key" : "0b26186a93e338912172493fbba9a9b3",
         "secret" : "c26506c3443d1bd8",
-        "redirect_uri" : "http://localhost:5000/connect/callback/douban",
+        "redirect_uri" : "http://localhost/connect/callback/douban",
     },
     OPENID_SINA : {
         "key" : "3537897641",

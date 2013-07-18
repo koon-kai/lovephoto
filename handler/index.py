@@ -14,7 +14,7 @@ class IndexHandler(base.BaseHandler):
         else:
             page = int(page)
 
-        pages = 15
+        pages = 10
         photos = None
         photo_count = None
         

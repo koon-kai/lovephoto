@@ -1,81 +1,107 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta charset="utf-8">
-    <title>Welcome | LovePhoto. {% block title %}{% end %}</title>
-	<link rel="shortcut icon" href="/static/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css" charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css" charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css" charset="utf-8" />
-	<script src="/static/js/jquery.js"></script>
-	<script src="/static/js/bootstrap.js"></script>
-    <script src="/static/js/common.js"></script>
-    <script src="/static/js/jquery.scrollTo.min.js"></script>
-	{% block script %}{% end %}
-	{% block style %}{% end %}
-  </head>
-  <body>
-    {% block topbar %}
-	<div class="navbar navbar-fixed-top" style="opacity:0.85;">
-      <div class="navbar-inner">
-        <div class="container">
-          <a  style="margin-top:5px;" class="brand" href="/">Love Photo</a>
-          <!--<a style="margin-top:5px;" class="brand" href="/"><img style="height:80px;" src="/static/img/logo5.png"/></a>-->
-          <div class="nav-collapse collapse">
-			<ul class="nav pull-right">
-                <li style="margin-top:5px;"><a href="/share"><i class="icon-share" style="margin-right:5px;"></i>分享你的每一瞬间</a></li>
-               <!--<li class=""><a href="/connect/sina"><img src="/static/img/login_weibo.png"/></a></li>-->
-               {% if current_user %}
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{{ json_decode(current_user)['nickname'] }}">
-                        <img  style="width:35px;height:30px;" src="{{ json_decode(current_user)['avatar'] }}" /><b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!--<li class="divider"></li>-->
-                        <li><a href="/share"><i class="icon-fixed-width icon-upload-alt" style="margin-right:4px;"></i>上传照片</a></li>
-                        <li><a href="/user/photos/{{ json_decode(current_user)['uid'] }}"><i class="icon-fixed-width icon-camera" style="margin-right:4px;"></i>我的照片</a></li>          
-                        <li><a href="/logout"><i class="icon-fixed-width icon-off" style="margin-right:4px;"></i>退出登录</a></li>
-                    </ul>
-                  </li>
-               {% else %}
-                    <!--
-                    <li>
-                        <a href="/connect/sina" title="使用微博帐号登录"><i style="margin-top:3px;" class="icon-weibo icon-2x" /></i> </a>
-                    </li>
-                    -->
-                    <li>
-                        <a href="/connect/douban" title="使用豆瓣帐号登录"><img style="margin-top:3px;" src="/static/img/login_douban.png" /></a>
-                    </li>
-               {% end %}
-            </ul>
-          </div>
+    <head>
+        <meta charset="utf-8">
+        <title>Welcome | LovePhoto. {% block title %}{% end %}</title>
+        <link rel="shortcut icon" href="/static/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css" charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css" charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css" charset="utf-8" />
+        <script src="/static/js/jquery.js"></script>
+        <script src="/static/js/bootstrap.js"></script>
+        <script src="/static/js/common.js"></script>
+        <script src="/static/js/jquery.scrollTo.min.js"></script>
+        <script>
+            $(function(){ 
+                //var UA = navigator.userAgent.toLowerCase(); 
+                //alert(UA);
+                //判断是否为360浏览器
+                if(window.external && window.external.twGetRunPath && window.external.twGetRunPath().toLowerCase().indexOf("360se")>-1){
+                    alert('检测到你使用360浏览器访问，请更换其他浏览器！否则，十秒钟后将启动自爆程序。');
+                }
+            });
+        </script>
+        {% block script %}{% end %}
+        {% block style %}{% end %}
+    </head>
+    <body>
+        {% block topbar %}
+        <div class="navbar navbar-fixed-top" style="opacity:0.85;">
+            <div class="navbar-inner top-height">
+                <div class="container">
+                    <a  style="margin-top:5px;" class="brand" href="/">Love Photo</a>
+                    <!--<a style="margin-top:5px;" class="brand" href="/"><img style="height:80px;" src="/static/img/logo5.png"/></a>-->
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right">
+                            <li style="margin-top:5px;"><a href="/share"><i class="icon-share" style="margin-right:5px;"></i>分享你的每一瞬间</a></li>
+                            <!--<li class=""><a href="/connect/sina"><img src="/static/img/login_weibo.png"/></a></li>-->
+                            {% if current_user %}
+                            <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{{ json_decode(current_user)['nickname'] }}">
+                                <img  style="width:35px;height:30px;" src="{{ json_decode(current_user)['avatar'] }}" /><b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!--<li class="divider"></li>-->
+                                <li><a href="/share"><i class="icon-fixed-width icon-upload-alt" style="margin-right:4px;"></i>上传照片</a></li>
+                                <li><a href="/user/photos/{{ json_decode(current_user)['uid'] }}"><i class="icon-fixed-width icon-camera" style="margin-right:4px;"></i>我的照片</a></li>          
+                                <li><a href="/logout"><i class="icon-fixed-width icon-off" style="margin-right:4px;"></i>退出登录</a></li>
+                            </ul>
+                            </li>
+                            {% else %}
+                            <!--
+                            <li>
+                            <a href="/connect/sina" title="使用微博帐号登录"><i style="margin-top:3px;" class="icon-weibo icon-2x" /></i> </a>
+                            </li>
+                            -->
+                            <!--
+                            <li>
+                            <a href="/connect/douban" title="使用豆瓣帐号登录"><img style="margin-top:3px;" src="/static/img/login_douban.png" /></a>
+                            </li>
+                            -->
+                            <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-top:6px;"> 登录</a>
+                                <ul class="dropdown-menu" >
+                                  <li> 
+                                    <a href="/connect/douban">
+                                      <img src="http://img3.douban.com/pics/douban-icons/favicon_24x24.png" title="豆瓣登录" style="margin-right:4px;"/> 豆瓣登录 </a>
+                                  </li>
+                                  <li>
+                                    <a href="/connect/sina">
+                                      <img src="http://www.sinaimg.cn/blog/developer/wiki/LOGO_24x24.png" title="微博登录" style="margin-right:4px;"/> 微博登录 </a>
+                                  </li>
+                                </ul>
+                            </li>
+                            {% end %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    {% end %}  
-    {% block content %}{% end %} 
-    {% block footer %}
-	   <div class="footer container">
-           <div class="row">
-               <div class="span3">
-                     © 2013 LovePhoto. Power by <a href="http://www.tornadoweb.org/" target="_blank">tornado</a> 
-              </div>
-              <div class="span2">
-                  <a href="/about" target="_blank">About me</a>
-              </div>
-              <div class="span2">
-                  <a href="http://blog.koonkai.me">Blog</a> 
-              </div>
-              <div class="span2">
-                   version: 0.0.1 
-              </div>
-              <div class="span2">
-                  <!--  <img src="/static/img/PoweredMongoDBbeige50.png"/>-->
-              </div>
-         </div>
-      </div>  
-    {% end %} 
-    <a id="goTop" class="invisible" title="返回顶部" href="javascript:void(0)" onfocus='this.blur()'>回顶部</a>
-  </body>
+        {% end %}  
+        {% block content %}{% end %} 
+        {% block footer %}
+        <div class="footer container">
+            <div class="row">
+                <div class="span3">
+                    © 2013 LovePhoto. Power by <a href="http://www.tornadoweb.org/" target="_blank">tornado</a> 
+                </div>
+                <div class="span2">
+                    <a href="/about" target="_blank">About me</a>
+                </div>
+                <div class="span2">
+                    <a href="http://blog.koonkai.me">Blog</a> 
+                </div>
+                <div class="span2">
+                    version: 0.0.1 
+                </div>
+                <div class="span2">
+                    Time cost: {{ "%.2f"% (1000.0*handler.request.request_time()) }} ms
+                    <!--  <img src="/static/img/PoweredMongoDBbeige50.png"/>-->
+                </div>
+            </div>
+        </div>  
+        {% end %} 
+        <a id="goTop" class="invisible" title="返回顶部" href="javascript:void(0)" onfocus='this.blur()'>回顶部</a>
+    </body>
 </html>

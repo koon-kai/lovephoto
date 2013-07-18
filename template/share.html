@@ -13,8 +13,10 @@
             //创建FormData对象
             var data = new FormData();
             //为FormData对象添加数据
+            //var upload_file ;
             jQuery.each(jQuery('#upload_file_hide')[0].files, function(i, file) {
                 data.append('uploadImg', file);
+                //upload_file = file;
             });
             jQuery(".node_bg").css({
                 'background' : 'url(/static/img/onLoad.gif) center center no-repeat'
@@ -100,6 +102,7 @@
         })
 
     });
+
 </script>
 {% end %}
 
@@ -132,7 +135,7 @@
                     <span class="Validform_checktip"></span>
                 </div>
                 <div class="form-control">
-                    <button type="submit" id="node_new_save_btn" class="btn btn-primary">提交</button>
+                    <button type="submit" id="node_new_save_btn" onclick="return submit_check();" class="btn btn-primary">提交</button>
                 </div>
                 {{  xsrf_form_html() }}
             </form>
