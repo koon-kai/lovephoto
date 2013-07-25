@@ -420,6 +420,10 @@ a.btn-fav:link, a.btn-fav:visited {
     float:right;
 }
 
+.comment .reply a{
+    float:right;
+}
+
 .comment table td {
     border-top: none;
 }
