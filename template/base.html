@@ -16,10 +16,14 @@
             $(function(){ 
                 //var UA = navigator.userAgent.toLowerCase(); 
                 //alert(UA);
+                var ua = navigator.userAgent.toLowerCase(); 
+                if(ua.indexOf("msie")>=0){
+                    jQuery('#detect').show();
+                }      
                 //判断是否为360浏览器
-                if(window.external && window.external.twGetRunPath && window.external.twGetRunPath().toLowerCase().indexOf("360se")>-1){
-                    alert('检测到你使用360浏览器访问，请更换其他浏览器！否则，十秒钟后将启动自爆程序。');
-                }
+                //if(window.external && window.external.twGetRunPath && window.external.twGetRunPath().toLowerCase().indexOf("360se")>-1){
+                //    alert('检测到你使用360浏览器访问，请更换其他浏览器！否则，十秒钟后将启动自爆程序。');
+                //}
             });
         </script>
         {% block script %}{% end %}
