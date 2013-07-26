@@ -28,7 +28,11 @@ from database import mongo_client
 
 define("port", default = 5000, help = "run on the given port", type = int)
 
+#import tornado.wsgi
+#import gevent.wsgi
+
 class Application(tornado.web.Application):
+#class Application(tornado.wsgi.WSGIApplication):
     def __init__(self):
         settings = dict(
             template_path = os.path.join(os.path.dirname(__file__), "template"),
@@ -65,7 +69,9 @@ class Application(tornado.web.Application):
             (r".*", handler.error.PageNotFoundHandler),
         ]
 
-        tornado.web.Application.__init__(self, handlers, **settings)
+        #tornado.web.Application.__init__(self, handlers, **settings)
+        #tornado.wsgi.WSGIApplication.__init__(self, handlers, **settings)
+        super(Application,self).__init__(handlers,**settings)
 
         # mongodb
         self.db = mongo_client[config.MDB_NAME]
@@ -81,12 +87,16 @@ class Application(tornado.web.Application):
         
         
 def main():
+    #import wsgiref.simple_server
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(options.port)
     print 'Server starting on 127.0.0.1:%s ...' % options.port
     tornado.ioloop.IOLoop.instance().start()
-  
+    #server = gevent.wsgi.WSGIServer(('',8000),Application())
+    #server.serve_forever()
+    #server = wsgiref.simple_server.make_server('', 8000, Application())
+    #server.serve_forever()
 
 if __name__ == "__main__":
     main()

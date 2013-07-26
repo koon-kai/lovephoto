@@ -18,9 +18,9 @@ class BaseHandler(tornado.web.RequestHandler):
     def fs(self):
         return self.application.fs
 
-    @property
-    def cache(self):
-        return self.application.cache
+    #@property
+    #def cache(self):
+    #    return self.application.cache
 
     @property
     def mc(self):

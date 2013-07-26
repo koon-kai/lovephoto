@@ -82,13 +82,20 @@ class IndexThumbHandler(base.BaseHandler):
 class PhotoLikeHandler(base.BaseHandler):
 
     def get(self,pid):
-        photo = self.db.photos.find_one({'_id':bson.objectid.ObjectId(pid)})
-        if not photo:
-            raise tornado.web.HTTPError(404)
-        like = int(photo['like'])
-        like = like + 1
-        self.db.photos.update({"_id":bson.objectid.ObjectId(pid)},{"$set":{"like":like}})
-        data = {"isOk":"true","message":pid}
+        
+        data = None
+        user = self.get_current_user()
+        if not user:
+            data = {"isOk":"false"}
+        else:
+            photo = self.db.photos.find_one({'_id':bson.objectid.ObjectId(pid)})
+            if not photo:
+                raise tornado.web.HTTPError(404)
+            like = int(photo['like'])
+            like = like + 1
+            self.db.photos.update({"_id":bson.objectid.ObjectId(pid)},{"$set":{"like":like}})
+            data = {"isOk":"true","message":pid}
+
         self.write(json_encode(data))
 
 

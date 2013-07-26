@@ -6,6 +6,7 @@ import pymongo
 
 
 class IndexHandler(base.BaseHandler):
+
     def get(self):
 
         page = self.get_argument('page',None)
@@ -60,5 +61,10 @@ class IndexHandler(base.BaseHandler):
 
 
 class AboutHandler(base.BaseHandler):
+
     def get(self):
         self.render("about.html")
+
+
+
+

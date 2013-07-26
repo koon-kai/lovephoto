@@ -61,7 +61,9 @@ function like(self){
     		    sel.parent().removeClass('like').addClass('liked');
     		    c = sel.parent().next('span');
     		    return $(c).html(parseInt($(c).html()) + 1);
-  		    } else {
+  		    }else if(mes.isOk == "false"){ 
+                return window.location = '/login';
+             }else {
     		    return console.log(mes.message);
  	        }
        },
