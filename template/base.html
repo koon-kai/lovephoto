@@ -5,7 +5,7 @@
         <title>Welcome | LovePhoto. {% block title %}{% end %}</title>
         <link rel="shortcut icon" href="/static/favicon.ico">
         <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" charset="utf-8" />
-        <!--<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css" charset="utf-8" />-->
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css" charset="utf-8" />
         <link rel="stylesheet" type="text/css" href="/static/css/style.css" charset="utf-8" />
         <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css" charset="utf-8" />
         <script src="/static/js/jquery.js"></script>
@@ -13,18 +13,15 @@
         <script src="/static/js/common.js"></script>
         <script src="/static/js/jquery.scrollTo.min.js"></script>
         <script>
-            $(function(){ 
-                //var UA = navigator.userAgent.toLowerCase(); 
-                //alert(UA);
-                var ua = navigator.userAgent.toLowerCase(); 
-                if(ua.indexOf("msie")>=0){
-                    jQuery('#detect').show();
-                }      
-                //判断是否为360浏览器
-                //if(window.external && window.external.twGetRunPath && window.external.twGetRunPath().toLowerCase().indexOf("360se")>-1){
-                //    alert('检测到你使用360浏览器访问，请更换其他浏览器！否则，十秒钟后将启动自爆程序。');
-                //}
-            });
+              $(function(){  
+                    //判断是否IE浏览器
+                    var ua = navigator.userAgent.toLowerCase(); 
+                    if(ua.indexOf("msie")>=0){
+                         if($('#detect')){
+                             $('#detect').show();
+                         }
+                    }   
+              });
         </script>
         {% block script %}{% end %}
         {% block style %}{% end %}

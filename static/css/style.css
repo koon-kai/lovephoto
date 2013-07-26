@@ -488,4 +488,18 @@ a.btn-fav:link, a.btn-fav:visited {
     width: 100%;
 }
 
-
+#infscr-loading{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: rgba(34, 25, 25, 0.14);
+    border-image: none;
+    border-style: double;
+    border-width: 3px 0 0;
+    font-weight: 700;
+    margin-bottom: 15px;
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+}
