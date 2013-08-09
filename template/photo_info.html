@@ -126,7 +126,7 @@
                      <td>{{ photo_info['camera_model']  }}</td>
                  </tr>
                  <tr>
-                     <td>曝光时间：</td>
+                     <td>快门速度：</td>
                      <td>{{ photo_info['exposure_time'] }} sec</td>
                  </tr>
                  <tr>
@@ -142,11 +142,23 @@
                      <td>测光模式：</td>
                      <td></td>
                  </tr>
-                 <tr>
-                     <td>曝光程序：</td>
-                     <td></td>
-                 </tr>
                  -->
+                 <tr>
+                     <td>拍摄模式：</td>
+                     {% if  photo_info['exposure_program']==0 %}
+                         <td>无</td>
+                     {% elif photo_info['exposure_program'] ==1 %}
+                         <td>手动控制</td>
+                     {% elif photo_info['exposure_program'] ==2 %}
+                         <td>程序控制</td>
+                     {% elif photo_info['exposure_program'] ==3 %}
+                         <td>光圈优先</td>
+                     {% elif photo_info['exposure_program'] ==4 %}
+                         <td>快门优先</td>
+                     {% else %}
+                         <td>其他</td>
+                     {% end %}
+                 </tr>
                  <tr>
                      <td>焦距：</td>
                      <td>{{ photo_info['focal_length'] }} mm</td>

@@ -129,7 +129,7 @@ class ShowPhotoHandler(base.BaseHandler):
                 photo_info["aperture_value"] = (lambda x:float('%0.2f'%(float(x[0])/float(x[1]))))(exif_info['ApertureValue']) #光圈大小
                 photo_info["iso_speed_rating"] = exif_info['ISOSpeedRatings'] #iso
                 #photo_info["metering_mode"] = exif_info['MeteringMode']  #测光模式
-                #photo_info["exposure_program"] = exif_info['ExposureProgram'] #曝光程序
+                photo_info["exposure_program"] = (lambda x: x.has_key('ExposureProgram') and x['ExposureProgram'] or 0)(exif_info) #曝光程序
                 photo_info["focal_length"] = (lambda x:float('%0.1f'%(float(x[0])/float(x[1]))))(exif_info['FocalLength']) #焦距
             except KeyError,e:
                 log.warning(e)
