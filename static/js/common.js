@@ -94,3 +94,14 @@ function submit_check(){
     }
     return true;
 }
+
+function share(e){
+    var language = "";
+    window.open("http://service.weibo.com/share/share.php?url="+$(e).attr("url")+
+            "&appkey="+$(e).attr("appkey")+
+            "&title="+$(e).attr("title")+
+            "&pic="+$(e).attr("pic")+
+            "&ralateUid="+$(e).attr("ralateUid")+
+            "&language="+language,"_blank","width=615,height=505")
+}
+

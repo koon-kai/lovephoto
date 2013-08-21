@@ -59,8 +59,8 @@ APIKEY_DICT = {
         "redirect_uri" : "http://lovephoto.koonkai.me/connect/callback/douban",
     },
     OPENID_SINA : {
-        "key" : "3537897641",
-        "secret" : "bdc5024c770ee866eb496a519e1e2155",
+        "key" : "2028891700",
+        "secret" : "dfe685941eebc04651c4af4533a973f9",
         "redirect_uri" : "http://lovephoto.koonkai.me/connect/callback/sina",
     },
 }

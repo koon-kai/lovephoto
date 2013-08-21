@@ -12,7 +12,10 @@ from model.data import SinaWeiboStatusData
 
 from .oauth2 import OAuth2
 from .error import OAuthLoginError, OAuthTokenExpiredError
+from utils.logger import logging
 
+
+log = logging.getLogger(__name__)
 
 class SinaWeibo(OAuth2):
 
@@ -29,7 +32,6 @@ class SinaWeibo(OAuth2):
                 apikey = d["key"], 
                 apikey_secret = d["secret"], 
                 redirect_uri = d["redirect_uri"],
-                alias=alias, 
                 access_token=access_token, 
                 refresh_token=refresh_token)
 
@@ -54,7 +56,7 @@ class SinaWeibo(OAuth2):
             error_code = jdata.get("error_code")
             error = jdata.get("error")
             request_api = jdata.get("request")
-            user_id = self.user_alias and self.user_alias.user_id or None
+            user_id = None
             excp = OAuthTokenExpiredError(user_id,
                     config.OPENID_TYPE_DICT[config.OPENID_SINA], 
                     "%s:%s:%s" %(error_code, error, request_api))
@@ -67,7 +69,6 @@ class SinaWeibo(OAuth2):
                     log.warning("get %s fail, error_code=%s, error_msg=%s" \
                         % (uri, error_code, error))
             else:
-                excp.clear_the_profile()
                 return jdata
 
     def get(self, url, extra_dict=None):
