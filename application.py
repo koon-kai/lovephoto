@@ -26,7 +26,7 @@ from tornado.escape import json_decode
 from gridfs import GridFS
 from database import mongo_client
 
-define("port", default = 5000, help = "run on the given port", type = int)
+define("port", default = 8000, help = "run on the given port", type = int)
 
 #import tornado.wsgi
 #import gevent.wsgi

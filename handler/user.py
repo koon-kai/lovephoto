@@ -69,6 +69,7 @@ class SharePhotoHandler(base.BaseHandler):
 
             thumb_dir = str(self.thumb_dir) + photo_name
         except AssertionError,e:
+            raise e
             info = u'只能上传图片格式的文件！'
             log.info(info)
         #photos = self.request.files['uploadImg']
