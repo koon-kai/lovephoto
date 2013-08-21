@@ -28,7 +28,7 @@ DB_NAME = 'lovelife'
 #-- mongodb config --
 MONGO_HOST = '127.0.0.1'
 MONGO_PORT = 27017
-MDB_NAME = 'lovelife'
+MDB_NAME = 'lovephoto'
 
 
 #-- redis config --
@@ -56,11 +56,11 @@ APIKEY_DICT = {
     OPENID_DOUBAN : {
         "key" : "0b26186a93e338912172493fbba9a9b3",
         "secret" : "c26506c3443d1bd8",
-        "redirect_uri" : "http://localhost/connect/callback/douban",
+        "redirect_uri" : "http://lovephoto.koonkai.me/connect/callback/douban",
     },
     OPENID_SINA : {
         "key" : "3537897641",
         "secret" : "bdc5024c770ee866eb496a519e1e2155",
-        "redirect_uri" : "http://blog.koonkai.me/connect/callback/sina",
+        "redirect_uri" : "http://lovephoto.koonkai.me/connect/callback/sina",
     },
 }
