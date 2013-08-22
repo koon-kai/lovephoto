@@ -5,8 +5,8 @@ import os.path
 
 
 #-- application config --
-SECRET_KEY = 'efku62xkQ02svYusgU3gyUUAEjqvHUWqjowRRlI3Odw='
-SITE_COOKIE = 'tsLochevTHaYN2FAmPodz0jcvHc1cEzOmr3JW+stpBI='
+SECRET_KEY = ''
+SITE_COOKIE = ''
 
 SITE_PATH = os.path.dirname(os.path.abspath(__file__))
 STATIC_PATH = os.path.join(SITE_PATH, 'static')
@@ -54,13 +54,13 @@ OPENID_TYPE_DICT = {
 #-- oauth key & secret config --
 APIKEY_DICT = {
     OPENID_DOUBAN : {
-        "key" : "0b26186a93e338912172493fbba9a9b3",
-        "secret" : "c26506c3443d1bd8",
+        "key" : "",
+        "secret" : "",
         "redirect_uri" : "http://lovephoto.koonkai.me/connect/callback/douban",
     },
     OPENID_SINA : {
-        "key" : "2028891700",
-        "secret" : "dfe685941eebc04651c4af4533a973f9",
+        "key" : "",
+        "secret" : "",
         "redirect_uri" : "http://lovephoto.koonkai.me/connect/callback/sina",
     },
 }
